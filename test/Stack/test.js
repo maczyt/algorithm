@@ -1,7 +1,8 @@
 var rootBase = process.env.PWD;
-var path = require('path');
+var join = require('path').join;
 var expect = require('chai').expect;
-var Stack = require(path.join(rootBase, 'Stack'));
+var stackDir = join(rootBase, 'Stack');
+var Stack = require(stackDir);
 
 describe('栈的创建', function () {
   it('应该为空数组', function () {
@@ -51,5 +52,12 @@ describe('clear', function () {
     stack.push(6);
     stack.clear();
     expect(stack.isEmpty()).to.be.ok;
+  })
+});
+
+describe('十进制转成二进制', function () {
+  it('等于1010', function () {
+    var divide2 = require(join(stackDir, 'ten2two'));
+    expect(divide2(10)).to.be.equal('1010');
   })
 });
