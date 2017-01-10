@@ -40,10 +40,8 @@ describe('size', function () {
 });
 
 describe('isEmpty', function () {
-  it('不为空', function () {
-    var stack = Stack();
-    stack.push(6);
-    expect(stack.isEmpty()).to.not.be.ok;
+  it('为空', function () {
+    expect(Stack().isEmpty()).to.be.ok;
   })
 });
 
