@@ -1,7 +1,6 @@
-var rootBase = process.env.PWD;
 var join = require('path').join;
 var expect = require('chai').expect;
-var stackDir = join(rootBase, 'Stack');
+var stackDir = join('../../', 'Stack');
 var Stack = require(stackDir);
 
 describe('栈的创建', function () {
