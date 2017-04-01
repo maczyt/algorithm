@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="keywords" content="JS,JavaScript,排序算法">
+  <meta name="description" content="选择排序">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>选择排序</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    div.index { background: crimson; }
+  </style>
+</head>
+<body>
+<script src="lib.js"></script>
+<script type="text/javascript">
+  var divs;
+  function SelectSort(array) {
+    var arr = array.slice();
+    var i, j, index;
+
+    divs = render(arr);
+    for (i = 0; i < arr.length - 1; i ++) {
+      index = i;
+      (function (index) {
+        t.add(function () {
+          divs[index].className = 'index';
+        });
+      })(index);
+
+      for (j = i + 1; j < arr.length; j ++) {
+        (function (j) {
+          t.add(function () {
+            divs[j].className = 'active';
+          });
+        })(j);
+        if (arr[j] < arr[index]) {
+          (function (index, j) {
+            t.add(function () {
+              divs[index].className = 'active';
+              divs[j].className = 'index';
+            });
+          })(index, j);
+          index = j;
+          changeIndex(index, j);
+        }
+      }
+      console.log(index, i);
+      if (index !== i) {
+        arr[i] = [arr[index], arr[index] = arr[i]][0];
+        swap(t, divs, i, index, arr[i], arr[index]);
+      }
+      finish(i);
+    }
+    t.add(function () {
+      divs.forEach(function (div) {
+        div.className = 'ok';
+      })
+    }, 0);
+    t.run();
+    return arr;
+  }
+  function swap (t, divs, ind1, ind2, val1, val2) {
+    t.add(function () {
+      divs[ind1].style.height = val1 * 30 + 'px';
+      divs[ind1].textContent = val1;
+      divs[ind2].style.height = val2 * 30 + 'px';
+      divs[ind2].textContent = val2;
+      divs.forEach(function (item, index) {
+        if (index <= ind1) return;
+        item.className = '';
+      });
+    });
+  }
+  function finish(i) {
+    t.add(function () {
+      divs[i].className = 'ok';
+    })
+  }
+  function changeIndex (i, j) {
+      var clsName = divs[i].className;
+      divs[i].className = divs[j].className;
+      divs[j].className = clsName;
+  }
+  var t = new TimedQueue(500);
+  var arr = function () {
+    var arr = [];
+    for (var i = 0; i < 20; i ++) {
+      arr.push(Math.floor(Math.random() * 20) + 1)
+    }
+    return arr;
+  }();
+  SelectSort(arr)
+</script>
+</body>
+</html>

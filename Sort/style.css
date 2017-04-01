@@ -1,0 +1,5 @@
+.container { display: flex; align-items: flex-end; min-height: 620px; }
+.container > div { margin: 5px; background: #add6e6; }
+div { transition: height 1s ease; }
+div.active { background: #0d8000; }
+div.ok { background: #fda800; }

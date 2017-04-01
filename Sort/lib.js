@@ -17,6 +17,7 @@ function render(array) {
 
 /**
  * 交换符合条件的数据
+ * 适合冒泡排序，兼容性不好
  * @param t
  * @param divs
  * @param ind1
