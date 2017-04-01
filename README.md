@@ -5,6 +5,10 @@
   2. 循环队列-circle
 3. 链表-LinkList
 ```
+---
+
+## You can visit [戳我](http://js-ninja.cn/algorithm/)
+
 > 排序算法
 
 - [冒泡排序](./Sort/Bubble.html)
