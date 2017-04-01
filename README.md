@@ -7,7 +7,8 @@
 ```
 > 排序算法
 
-1. [冒泡排序](./Sort/Bubble.html)
-2. [选择排序](./Sort/Select.html)
+- [冒泡排序](./Sort/Bubble.html)
+- [选择排序](./Sort/Select.html)
+- [快速排序](./Sort/Quick.html)
 
 MIT
