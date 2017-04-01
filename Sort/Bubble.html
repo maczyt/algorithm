@@ -11,23 +11,24 @@
   </style>
 </head>
 <body>
+<script src="lib.js"></script>
 <script type="text/javascript">
   var divs;
   function BubbleSort(array) {
     var arr = array.slice();
     var i, j;
 
-    render(arr);
+    divs = render(arr);
     for (i = arr.length - 1; i > 0; i --) {
       for (j = 0; j < i; j ++) {
         if (arr[j] > arr[j+1]) {
           arr[j] = [arr[j+1], arr[j+1] = arr[j]][0];
-          swap(j, j + 1, arr[j], arr[j + 1]);
+          swap(t, divs, j, j + 1, arr[j], arr[j + 1]);
         }
       }
       (function (x) {
         t.add(function () {
-          divs[x].className = 'ok'
+          divs[x].className = 'ok';
           divs.splice(x, 1);
         })
       })(j)
@@ -36,59 +37,10 @@
       divs.forEach(function (div) {
         div.className = 'ok';
       })
-    }, 0)
+    }, 0);
     t.run();
     return arr;
   }
-
-  function render(array) {
-    var html = [];
-    for (var i = 0; i < array.length; i ++) {
-      html.push('<div style="justify-content: center; display: flex; align-items: flex-end; vertical-align: bottom; height: '+(array[i] * 30)+'px; width: 50px;">' + array[i] + '</div>');
-    }
-    var div = document.createElement('div');
-    div.className = 'container';
-    document.body.appendChild(div);
-    div.innerHTML = html.join('');
-    divs = [].slice.call(div.querySelectorAll('div'), 0);
-  }
-  function swap (ind1, ind2, val1, val2) {
-    t.add(function () {
-      divs[ind1].style.height = val1 * 30 + 'px';
-      divs[ind1].textContent = val1;
-      divs[ind2].style.height = val2 * 30 + 'px';
-      divs[ind2].textContent = val2;
-      divs.forEach(function (item) {
-        item.className = '';
-      })
-      divs[ind1].className = 'active';
-      divs[ind2].className = 'active';
-
-    })
-  }
-
-  function TimedQueue (defaultDelay) {
-    this.queue = [];
-    this.defaultDelay = defaultDelay || 3000;
-  };
-  TimedQueue.prototype = {
-    add: function (fn, delay) {
-      this.queue.push({
-        fn: fn,
-        delay: delay
-      })
-    },
-    run: function () {
-      if (this.queue.length <= 0) return;
-      var self = this
-        , at = this.queue.shift();
-      at && setTimeout(function () {
-        at.fn();
-        self.run();
-      }, at.delay || self.defaultDelay)
-    }
-  };
-
   var t = new TimedQueue(1000);
   var arr = function () {
     var arr = [];
