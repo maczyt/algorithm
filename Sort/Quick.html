@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="keywords" content="JS,JavaScript,排序算法">
+  <meta name="description" content="快速排序">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>快速排序</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../Bootstrap/bootstrap.min.css">
+  <script src="../Bootstrap/jquery.min.js"></script>
+  <script src="../Bootstrap/bootstrap.min.js"></script>
+  <style>
+    div.index { background: crimson; }
+    [name="nums"] { opacity: 0; display: none; }
+    input[type="range"] + span { display: inline-block; width: 5em; }
+    input[type="range"]:before { content: attr(min); }
+    input[type="range"]:after { content: attr(max); }
+    button { position: relative; display: block; }
+    button > label { display: block; position: absolute; width: 100%; height: 100%; left:0; top: 0; z-index: 100; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>快速排序</h1>
+  <div class="row well">
+    <label for="data" class="span6">数据: <input id="data" type="radio" name="user-select" value="data" checked></label>
+    <label for="random">随机值: <input id="random" type="radio" name="user-select" value="random"></label>
+  </div>
+  <div class="pull-left">
+    <div id="data-wrapper">
+      <input type="text" id="txt-data" placeholder="英文半角逗号分隔">
+    </div>
+    <div id="random-wrapper" style="display: none; margin-bottom: 15px;">
+      <div class="btn-group" data-toggle="buttons-radio">
+        <button type="button" class="btn btn-default">
+          <span>10</span>
+          <label for="num-10"></label>
+          <input id="num-10" type="radio" name="nums" value="10" checked>
+        </button>
+        <button type="button" class="btn btn-default">
+          <span>20</span>
+          <label for="num-20"></label>
+          <input id="num-20" type="radio" name="nums" value="20">
+        </button>
+        <button type="button" class="btn btn-default">
+          <span>30</span>
+          <label for="num-30"></label>
+          <input id="num-30" type="radio" name="nums" value="30">
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="pull-right clearfix">
+    <span>速度(毫秒)</span>&nbsp;<input type="range" min="100" max="2000" step="50" value="500">&nbsp;<span>500ms</span>
+  </div>
+  <div class="clearfix"></div>
+  <div>
+    <a class="btn btn-primary" id="start">开始</a>
+  </div>
+</div>
+<script src="lib.js"></script>
+<script>
+  var time, nums, t;
+  $('[name="user-select"]').on('change', function () {
+    var value = this.value;
+    $('#data-wrapper').css('display', 'none');
+    $('#random-wrapper').css('display', 'none');
+    $('#'+value+'-wrapper').css('display', 'block');
+  });
+  $('[name="nums"]').on('change', function () {
+    nums = this.value;
+  });
+  $('[type="range"]').on('change', function () {
+    $(this).next().text(this.value+'ms');
+  });
+</script>
+<script type="text/javascript">
+  var divs;
+
+  /**
+   * @author Nicholas C. Zakas
+   * @param array
+   * @param left
+   * @param right
+   * @returns {*}
+   * @constructor
+   */
+  function QuickSort(array, left, right) {
+    if (array.length < 2) return array;
+    left = left || 0;
+    right = right || array.length - 1;
+    var index = partition(array, left, right);
+    finish(index);
+    if (left < index - 1) {
+      QuickSort(array, left, index - 1);
+    }
+    if (index < right) {
+      QuickSort(array, index, right);
+    }
+    return array;
+  }
+  function finish(index) {
+    t.add(function () {
+      divs[index].className = 'ok';
+    })
+  }
+  function partition (array, left, right) {
+    var ind   = Math.floor((left + right) / 2),
+        pivot = array[ind],
+        i     = left,
+        j     = right;
+    t.add(function () {
+      divs[ind].className = 'active';
+    });
+    while (i <= j) {
+      while (array[i] < pivot) i ++;
+      while (array[j] > pivot) j --;
+      if (i <= j) {
+        array[i] = [array[j], array[j] = array[i]][0];
+        swap(i, j, array[i], array[j]);
+        i ++;
+        j --;
+      }
+    }
+    return i;
+  }
+  function init(array) {
+    var arr = array.slice();
+
+    divs = render(arr);
+    QuickSort(arr);
+    t.add(function () {
+      divs.forEach(function (div) {
+        div.className = 'ok';
+      })
+    }, 0);
+    t.run();
+    return arr;
+  }
+  function swap (ind1, ind2, val1, val2) {
+    t.add(function () {
+      divs[ind1].style.height = val1 * 30 + 'px';
+      divs[ind1].textContent = val1;
+      divs[ind2].style.height = val2 * 30 + 'px';
+      divs[ind2].textContent = val2;
+      divs.forEach(function (item, index) {
+        item.className = '';
+      });
+    });
+  }
+  function getRange(nums) {
+    var arr = [];
+    for (var i = 0; i < nums; i ++) {
+      arr.push(Math.floor(Math.random() * 20) + 1)
+    }
+    return arr;
+  }
+  $('#start').on('click', function () {
+    time = $('[type="range"]').val();
+
+    var data, $txt = $('#txt-data');
+    if ($txt.val().length === 0) {
+      data = getRange(nums);
+    } else {
+      data = $txt.val().replace(/\s/g, '').split(',');
+    }
+    t = new TimedQueue(time);
+    init(data);
+  });
+</script>
+</body>
+</html>

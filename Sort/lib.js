@@ -9,7 +9,7 @@ function render(array) {
     html.push('<div style="justify-content: center; display: flex; align-items: flex-end; vertical-align: bottom; height: '+(array[i] * 30)+'px; width: 50px;">' + array[i] + '</div>');
   }
   var div = document.createElement('div');
-  div.className = 'container';
+  div.className = 'containers';
   document.body.appendChild(div);
   div.innerHTML = html.join('');
   return [].slice.call(div.querySelectorAll('div'), 0);
