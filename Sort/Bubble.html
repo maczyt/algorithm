@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>冒泡排序</title>
+  <style>
+    .container { display: flex; align-items: flex-end; min-height: 620px; }
+    .container > div { margin: 5px; background: #add6e6; }
+    div { transition: height 1s ease; }
+    div.active { background: #0d8000; }
+    div.ok { background: #fda800; }
+  </style>
+</head>
+<body>
+<script type="text/javascript">
+  var divs;
+  function BubbleSort(array) {
+    var arr = array.slice();
+    var i, j;
+
+    render(arr);
+    for (i = arr.length - 1; i > 0; i --) {
+      for (j = 0; j < i; j ++) {
+        if (arr[j] > arr[j+1]) {
+          arr[j] = [arr[j+1], arr[j+1] = arr[j]][0];
+          swap(j, j + 1, arr[j], arr[j + 1]);
+        }
+      }
+      (function (x) {
+        t.add(function () {
+          divs[x].className = 'ok'
+          divs.splice(x, 1);
+        })
+      })(j)
+    }
+    t.add(function () {
+      divs.forEach(function (div) {
+        div.className = 'ok';
+      })
+    }, 0)
+    t.run();
+    return arr;
+  }
+
+  function render(array) {
+    var html = [];
+    for (var i = 0; i < array.length; i ++) {
+      html.push('<div style="justify-content: center; display: flex; align-items: flex-end; vertical-align: bottom; height: '+(array[i] * 30)+'px; width: 50px;">' + array[i] + '</div>');
+    }
+    var div = document.createElement('div');
+    div.className = 'container';
+    document.body.appendChild(div);
+    div.innerHTML = html.join('');
+    divs = [].slice.call(div.querySelectorAll('div'), 0);
+  }
+  function swap (ind1, ind2, val1, val2) {
+    t.add(function () {
+      divs[ind1].style.height = val1 * 30 + 'px';
+      divs[ind1].textContent = val1;
+      divs[ind2].style.height = val2 * 30 + 'px';
+      divs[ind2].textContent = val2;
+      divs.forEach(function (item) {
+        item.className = '';
+      })
+      divs[ind1].className = 'active';
+      divs[ind2].className = 'active';
+
+    })
+  }
+
+  function TimedQueue (defaultDelay) {
+    this.queue = [];
+    this.defaultDelay = defaultDelay || 3000;
+  };
+  TimedQueue.prototype = {
+    add: function (fn, delay) {
+      this.queue.push({
+        fn: fn,
+        delay: delay
+      })
+    },
+    run: function () {
+      if (this.queue.length <= 0) return;
+      var self = this
+        , at = this.queue.shift();
+      at && setTimeout(function () {
+        at.fn();
+        self.run();
+      }, at.delay || self.defaultDelay)
+    }
+  };
+
+  var t = new TimedQueue(1000);
+  var arr = function () {
+    var arr = [];
+    for (var i = 0; i < 20; i ++) {
+      arr.push(Math.floor(Math.random() * 20) + 1)
+    }
+    return arr;
+  }();
+  BubbleSort(arr)
+</script>
+</body>
+</html>

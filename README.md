@@ -5,5 +5,8 @@
   2. 循环队列-circle
 3. 链表-LinkList
 ```
+> 排序算法
+
+1. [冒泡排序](./Sort/Bubble.html)
 
 MIT
