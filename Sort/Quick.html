@@ -59,9 +59,10 @@
     <a class="btn btn-primary" id="start">开始</a>
   </div>
 </div>
+<div class="container containers" id="main"></div>
 <script src="lib.js"></script>
 <script>
-  var time, nums, t;
+  var time, nums, t, num_change = false;
   $('[name="user-select"]').on('change', function () {
     var value = this.value;
     $('#data-wrapper').css('display', 'none');
@@ -70,6 +71,7 @@
   });
   $('[name="nums"]').on('change', function () {
     nums = this.value;
+    num_change = true;
   });
   $('[type="range"]').on('change', function () {
     $(this).next().text(this.value+'ms');
@@ -78,6 +80,16 @@
 <script type="text/javascript">
   var divs;
 
+  function render(array) {
+    var html = [];
+    for (var i = 0; i < array.length; i ++) {
+      html.push('<div style="justify-content: center; display: flex; align-items: flex-end; vertical-align: bottom; height: '+(array[i] * 30)+'px; width: 50px;">' + array[i] + '</div>');
+    }
+    var  main = $('#main');
+    main.html(html.join(''));
+    $(document.body).scrollTop($(document.body).height());
+    return [].slice.call(main.find('div'), 0);
+  }
   /**
    * @author Nicholas C. Zakas
    * @param array
@@ -161,6 +173,7 @@
 
     var data, $txt = $('#txt-data');
     if ($txt.val().length === 0) {
+      if (!num_change) { nums = $('[name="nums"]').val(); }
       data = getRange(nums);
     } else {
       data = $txt.val().replace(/\s/g, '').split(',');
